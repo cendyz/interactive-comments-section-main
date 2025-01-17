@@ -1,0 +1,7 @@
+## aha05
+
+User-agent: Googlebot
+Disallow: /nogooglebot/
+
+User-agent: *
+Allow: /

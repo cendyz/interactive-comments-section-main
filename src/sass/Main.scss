@@ -1,0 +1,75 @@
+@use './utilities/' as *;
+
+.box {
+	margin-bottom: 1em;
+	padding: 1em;
+	background-color: $white;
+	border-radius: 0.5em;
+}
+
+.upperBox,
+.bottomBox {
+	display: flex;
+	align-items: center;
+	column-gap: 1em;
+}
+
+.avatar {
+	display: block;
+	width: 10%;
+}
+
+.nick {
+	color: $dark-blue;
+	font-weight: $weight-500;
+}
+
+.time,
+.desc {
+	color: $grayish-blue;
+}
+
+.desc {
+	margin: 0.9em 0;
+	line-height: 1.5;
+}
+
+.bottomBox {
+	min-width: 5.5em;
+	justify-content: space-between;
+}
+
+.btnsBox {
+	background-color: $light-gray;
+	border-radius: 0.7em;
+}
+
+.leftBtn,
+.votes,
+.rightBtn {
+	padding: 0.5em;
+	font-weight: $weight-500;
+	color: $moderate-blue;
+	font-size: 1.7rem;
+}
+
+.votes {
+	display: inline-block;
+}
+.leftBtn,
+.rightBtn {
+	color: $grayish-blue;
+}
+
+.replyIcon {
+	margin-top: 0.2em;
+	margin-right: 0.3em;
+}
+
+.reply {
+	display: flex;
+	align-items: center;
+	font-size: 1.6rem;
+	font-weight: $weight-500;
+	color: $moderate-blue;
+}
