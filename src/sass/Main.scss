@@ -1,15 +1,30 @@
 @use './utilities/' as *;
 
+.upperBox,
+.bottomBox,
+.reply,
+.delete,
+.edit,
+.ownButtons,
+.downBox {
+	display: flex;
+}
+
+.box,
+.insdieReplyBox,
+.commentBox,
+.textarea {
+	padding: 1em;
+}
+
 .box {
 	margin-bottom: 1em;
-	padding: 1em;
 	background-color: $white;
 	border-radius: 0.5em;
 }
 
 .upperBox,
 .bottomBox {
-	display: flex;
 	align-items: center;
 	column-gap: 1em;
 }
@@ -55,6 +70,7 @@
 
 .votes {
 	display: inline-block;
+	user-select: none;
 }
 .leftBtn,
 .rightBtn {
@@ -67,7 +83,6 @@
 }
 
 .reply {
-	display: flex;
 	align-items: center;
 	font-size: 1.6rem;
 	font-weight: $weight-500;
@@ -83,7 +98,6 @@
 	width: 93%;
 	border-radius: 0.5em;
 	margin-left: auto;
-	padding: 1em;
 	background-color: $white;
 	margin-bottom: 1em;
 }
@@ -103,13 +117,11 @@
 }
 
 .ownButtons {
-	display: flex;
 	column-gap: 1.2em;
 }
 
 .delete,
 .edit {
-	display: flex;
 	align-items: center;
 	column-gap: 0.3em;
 	font-weight: $weight-500;
@@ -126,12 +138,10 @@
 
 .commentBox {
 	background-color: $white;
-	padding: 1em;
 	border-radius: 0.5em;
 }
 
 .textarea {
-	padding: 1em;
 	width: 100%;
 	min-height: 6.25em;
 	max-height: 6.25em;
@@ -142,7 +152,6 @@
 
 .downBox {
 	margin-top: 1em;
-	display: flex;
 	align-items: center;
 	justify-content: space-between;
 }
@@ -154,4 +163,9 @@
 	font-size: 1.6rem;
 	background-color: $moderate-blue;
 	border-radius: 0.5em;
+}
+
+.disableVote {
+	pointer-events: none;
+	cursor: default;
 }

@@ -26,6 +26,7 @@ export const data = {
 				username: 'amyrobson',
 			},
 			replies: [],
+			plusActive: false,
 		},
 		{
 			id: 2,
@@ -39,6 +40,8 @@ export const data = {
 					webp: maxblaugn,
 				},
 				username: 'maxblagun',
+				plusActive: false,
+				minusActive: false,
 			},
 			replies: [
 				{
@@ -55,6 +58,7 @@ export const data = {
 						},
 						username: 'ramsesmiron',
 					},
+					plusActive: false,
 				},
 				{
 					id: 4,
@@ -70,6 +74,8 @@ export const data = {
 						},
 						username: 'juliusomo',
 					},
+					plusActive: false,
+					minusActive: false,
 				},
 			],
 		},

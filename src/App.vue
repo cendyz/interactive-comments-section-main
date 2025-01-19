@@ -1,12 +1,30 @@
 <script setup>
 import { reactive } from 'vue'
 import { data } from './data'
+import ownAvatar from './images/avatars/image-juliusomo.webp'
+import replyIcon from './images/icon-reply.svg'
+import editIcon from './images/icon-edit.svg'
+import deleteIcon from './images/icon-delete.svg'
 
 const DEFAULT_DATA = {
 	commentBox: data.comments,
 }
 
 const newData = reactive(DEFAULT_DATA)
+const upVote = index => {
+	if (!newData.commentBox[index].plusActive) {
+		newData.commentBox[index].score++
+		newData.commentBox[index].plusActive = true
+		newData.commentBox[index].minusActive = false
+	}
+}
+const downVote = index => {
+	if (!newData.commentBox[index].minusActive) {
+		newData.commentBox[index].score--
+		newData.commentBox[index].minusActive = true
+		newData.commentBox[index].plusActive = false
+	}
+}
 </script>
 <template>
 	<main class="main">
@@ -28,12 +46,20 @@ const newData = reactive(DEFAULT_DATA)
 				</p>
 				<div class="bottomBox">
 					<div class="btnsBox">
-						<button class="leftBtn">+</button>
+						<button
+							:class="['leftBtn', { disableVote: value.plusActive }]"
+							@click="upVote(index)">
+							+
+						</button>
 						<p class="votes">{{ value.score }}</p>
-						<button class="rightBtn">-</button>
+						<button
+							:class="['rightBtn', { disableVote: value.minusActive }]"
+							@click="downVote(index)">
+							-
+						</button>
 					</div>
 					<button class="reply">
-						<img src="./images/icon-reply.svg" alt="" class="replyIcon" />
+						<img :src="replyIcon" alt="Reply icon" class="replyIcon" />
 						Reply
 					</button>
 				</div>
@@ -69,10 +95,7 @@ const newData = reactive(DEFAULT_DATA)
 						<button
 							class="reply"
 							v-if="value.user.username !== 'juliusomo'">
-							<img
-								src="./images/icon-reply.svg"
-								alt=""
-								class="replyIcon" />
+							<img :src="replyIcon" alt="Reply icon" class="replyIcon" />
 							Reply
 						</button>
 						<div
@@ -80,17 +103,14 @@ const newData = reactive(DEFAULT_DATA)
 							v-if="value.user.username == 'juliusomo'">
 							<button class="delete">
 								<img
-									src="./images/icon-delete.svg"
-									alt=""
+									:src="deleteIcon"
+									alt="Trash icon"
 									class="deleteIcon" />
 								Delete
 							</button>
 							<button class="edit">
-								<img
-									src="./images/icon-edit.svg"
-									alt=""
-									class="editIcon" />
-								Reply
+								<img :src="editIcon" alt="Pencil icon" class="editIcon" />
+								Edit
 							</button>
 						</div>
 					</div>
@@ -98,9 +118,12 @@ const newData = reactive(DEFAULT_DATA)
 			</div>
 		</div>
 		<div class="commentBox">
-			<textarea id="textarea" placeholder="Add a comment..." class="textarea"></textarea>
+			<textarea
+				id="textarea"
+				placeholder="Add a comment..."
+				class="textarea"></textarea>
 			<div class="downBox">
-				<img src="./images/avatars/image-juliusomo.webp" alt="Your avatar" class="avatar">
+				<img :src="ownAvatar" alt="Your avatar" class="avatar" />
 				<button class="send" type="button">send</button>
 			</div>
 		</div>
