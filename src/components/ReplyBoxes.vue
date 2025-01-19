@@ -1,0 +1,125 @@
+<script setup>
+import editIcon from '../images/icon-edit.svg'
+import deleteIcon from '../images/icon-delete.svg'
+import replyIcon from '../images/icon-reply.svg'
+import RepliesVoteBtns from './Utils/RepliesVoteBtns.vue'
+
+const props = defineProps({
+	index: Number,
+	newData: Object,
+})
+</script>
+<template>
+	<div
+		class="mainReplyBox"
+		v-if="props.newData.commentBox[props.index].replies.length > 0">
+		<div
+			class="insdieReplyBox"
+			v-for="value in props.newData.commentBox[props.index].replies"
+			:key="value.id">
+			<div class="upperBox">
+				<img
+					:src="value.user.image.webp"
+					alt="Profile picture"
+					class="avatar" />
+				<p class="nick">{{ value.user.username }}</p>
+				<p v-if="value.user.username === 'juliusomo'" class="you">you</p>
+				<p class="time">{{ value.createdAt }}</p>
+			</div>
+			<p class="desc">
+				<span class="calledUser">@{{ value.replyingTo }}</span>
+				{{ value.content }}
+			</p>
+			<div class="bottomBox">
+				<RepliesVoteBtns :value="value" />
+				<button class="reply" v-if="value.user.username !== 'juliusomo'">
+					<img :src="replyIcon" alt="Reply icon" class="replyIcon" />
+					Reply
+				</button>
+				<div class="ownButtons" v-if="value.user.username == 'juliusomo'">
+					<button class="delete">
+						<img :src="deleteIcon" alt="Trash icon" class="deleteIcon" />
+						Delete
+					</button>
+					<button class="edit">
+						<img :src="editIcon" alt="Pencil icon" class="editIcon" />
+						Edit
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<style scoped lang="scss">
+.ownButtons,
+.delete,
+.edit,
+.reply,
+.bottomBox {
+	display: flex;
+}
+
+.time,
+.desc {
+	color: $grayish-blue;
+}
+
+.desc {
+	margin: 0.9em 0;
+	line-height: 1.5;
+}
+
+.calledUser {
+	color: $moderate-blue;
+	font-weight: $weight-500;
+}
+
+.bottomBox {
+	min-width: 5.5em;
+	justify-content: space-between;
+	align-items: center;
+	column-gap: 1em;
+}
+
+.reply {
+	align-items: center;
+	font-size: 1.6rem;
+	font-weight: $weight-500;
+	color: $moderate-blue;
+}
+
+.replyIcon {
+	margin-top: 0.2em;
+	margin-right: 0.3em;
+}
+
+.you {
+	padding: 0.2em 0.6em;
+	border-radius: 0.2em;
+	background-color: $moderate-blue;
+	color: $white;
+	font-size: 1.2rem;
+	font-weight: $weight-500;
+}
+
+.ownButtons {
+	column-gap: 1.2em;
+}
+
+.delete,
+.edit {
+	align-items: center;
+	column-gap: 0.3em;
+	font-weight: $weight-500;
+	font-size: 1.6rem;
+}
+
+.delete {
+	color: $soft-red;
+}
+
+.edit {
+	color: $moderate-blue;
+}
+</style>

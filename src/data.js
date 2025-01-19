@@ -27,6 +27,7 @@ export const data = {
 			},
 			replies: [],
 			plusActive: false,
+			minusActive: false,
 		},
 		{
 			id: 2,
@@ -59,6 +60,7 @@ export const data = {
 						username: 'ramsesmiron',
 					},
 					plusActive: false,
+					minusActive: false,
 				},
 				{
 					id: 4,

@@ -1,30 +1,16 @@
 <script setup>
 import { reactive } from 'vue'
 import { data } from './data'
-import ownAvatar from './images/avatars/image-juliusomo.webp'
 import replyIcon from './images/icon-reply.svg'
-import editIcon from './images/icon-edit.svg'
-import deleteIcon from './images/icon-delete.svg'
+import VoteBtns from './components/Utils/VoteBtns.vue'
+import CommentBox from './components/CommentBox.vue'
+import ReplyBoxes from './components/ReplyBoxes.vue'
 
 const DEFAULT_DATA = {
 	commentBox: data.comments,
 }
 
 const newData = reactive(DEFAULT_DATA)
-const upVote = index => {
-	if (!newData.commentBox[index].plusActive) {
-		newData.commentBox[index].score++
-		newData.commentBox[index].plusActive = true
-		newData.commentBox[index].minusActive = false
-	}
-}
-const downVote = index => {
-	if (!newData.commentBox[index].minusActive) {
-		newData.commentBox[index].score--
-		newData.commentBox[index].minusActive = true
-		newData.commentBox[index].plusActive = false
-	}
-}
 </script>
 <template>
 	<main class="main">
@@ -45,88 +31,20 @@ const downVote = index => {
 					{{ value.content }}
 				</p>
 				<div class="bottomBox">
-					<div class="btnsBox">
-						<button
-							:class="['leftBtn', { disableVote: value.plusActive }]"
-							@click="upVote(index)">
-							+
-						</button>
-						<p class="votes">{{ value.score }}</p>
-						<button
-							:class="['rightBtn', { disableVote: value.minusActive }]"
-							@click="downVote(index)">
-							-
-						</button>
-					</div>
+					<VoteBtns
+						@handleVote="handleVote"
+						:index="index"
+						:value="value"
+						:newData="newData.commentBox" />
 					<button class="reply">
 						<img :src="replyIcon" alt="Reply icon" class="replyIcon" />
 						Reply
 					</button>
 				</div>
 			</div>
-			<div
-				class="mainReplyBox"
-				v-if="newData.commentBox[index].replies.length > 0">
-				<div
-					class="insdieReplyBox"
-					v-for="(value, index) in newData.commentBox[index].replies"
-					:key="value.id">
-					<div class="upperBox">
-						<img
-							:src="value.user.image.webp"
-							alt="Profile picture"
-							class="avatar" />
-						<p class="nick">{{ value.user.username }}</p>
-						<p v-if="value.user.username === 'juliusomo'" class="you">
-							you
-						</p>
-						<p class="time">{{ value.createdAt }}</p>
-					</div>
-					<p class="desc">
-						<span class="calledUser">@{{ value.replyingTo }}</span>
-						{{ value.content }}
-					</p>
-					<div class="bottomBox">
-						<div class="btnsBox">
-							<button class="leftBtn">+</button>
-							<p class="votes">{{ value.score }}</p>
-							<button class="rightBtn">-</button>
-						</div>
-						<button
-							class="reply"
-							v-if="value.user.username !== 'juliusomo'">
-							<img :src="replyIcon" alt="Reply icon" class="replyIcon" />
-							Reply
-						</button>
-						<div
-							class="ownButtons"
-							v-if="value.user.username == 'juliusomo'">
-							<button class="delete">
-								<img
-									:src="deleteIcon"
-									alt="Trash icon"
-									class="deleteIcon" />
-								Delete
-							</button>
-							<button class="edit">
-								<img :src="editIcon" alt="Pencil icon" class="editIcon" />
-								Edit
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
+			<ReplyBoxes :index="index" :newData="newData" />
 		</div>
-		<div class="commentBox">
-			<textarea
-				id="textarea"
-				placeholder="Add a comment..."
-				class="textarea"></textarea>
-			<div class="downBox">
-				<img :src="ownAvatar" alt="Your avatar" class="avatar" />
-				<button class="send" type="button">send</button>
-			</div>
-		</div>
+		<CommentBox />
 	</main>
 </template>
 
@@ -139,11 +57,5 @@ body {
 	font-family: 'Rubik', serif;
 	font-size: 1.6rem;
 	background-color: $very-light-gray;
-}
-
-.wrapper {
-	width: 100%;
-	max-width: 1220px;
-	margin: 0 auto;
 }
 </style>
