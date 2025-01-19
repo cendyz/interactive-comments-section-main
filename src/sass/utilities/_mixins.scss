@@ -32,5 +32,42 @@
 }
 
 @mixin mainBox {
-	
+	.upperBox,
+	.bottomBox,
+	.reply {
+		display: flex;
+	}
+
+	.nick {
+		color: $dark-blue;
+		font-weight: $weight-500;
+	}
+
+	.time,
+	.desc {
+		color: $grayish-blue;
+	}
+
+	.desc {
+		margin: 0.9em 0;
+		line-height: 1.5;
+	}
+	.bottomBox {
+		min-width: 5.5em;
+		justify-content: space-between;
+		align-items: center;
+		column-gap: 1em;
+	}
+
+	.reply {
+		align-items: center;
+		font-size: 1.6rem;
+		font-weight: $weight-500;
+		color: $moderate-blue;
+	}
+
+	.replyIcon {
+		margin-top: 0.2em;
+		margin-right: 0.3em;
+	}
 }

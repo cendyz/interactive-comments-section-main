@@ -52,46 +52,35 @@ const props = defineProps({
 </template>
 
 <style scoped lang="scss">
+@include mainBox;
 .ownButtons,
 .delete,
 .edit,
-.reply,
-.bottomBox {
+.upperBox {
 	display: flex;
 }
 
-.time,
-.desc {
-	color: $grayish-blue;
+.mainReplyBox {
+	margin-left: auto;
+	border-left: 2px solid $light-grayish-blue;
 }
 
-.desc {
-	margin: 0.9em 0;
-	line-height: 1.5;
+.insdieReplyBox {
+	padding: 1em;
+	width: 93%;
+	border-radius: 0.5em;
+	margin-left: auto;
+	background-color: $white;
+	margin-bottom: 1em;
+}
+.upperBox {
+	align-items: center;
+	column-gap: 1em;
 }
 
 .calledUser {
 	color: $moderate-blue;
 	font-weight: $weight-500;
-}
-
-.bottomBox {
-	min-width: 5.5em;
-	justify-content: space-between;
-	align-items: center;
-	column-gap: 1em;
-}
-
-.reply {
-	align-items: center;
-	font-size: 1.6rem;
-	font-weight: $weight-500;
-	color: $moderate-blue;
-}
-
-.replyIcon {
-	margin-top: 0.2em;
-	margin-right: 0.3em;
 }
 
 .you {
