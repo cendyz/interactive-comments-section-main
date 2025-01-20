@@ -1,5 +1,31 @@
 <script setup>
 import ownAvatar from '../images/avatars/image-juliusomo.webp'
+import { nanoid } from 'nanoid'
+import { ref } from 'vue'
+
+const content = ref('')
+
+const props = defineProps({
+	newData: Object,
+})
+
+const addComment = () => {
+	props.newData.commentBox.push({
+		id: nanoid(),
+		content: content.value,
+		createdAt: 'few seconds ago',
+		score: 0,
+		user: {
+			image: {
+				webp: ownAvatar,
+			},
+			username: 'juliusomo',
+		},
+		replies: [],
+		plusActive: false,
+		minusActive: false,
+	})
+}
 </script>
 
 <template>
@@ -7,10 +33,11 @@ import ownAvatar from '../images/avatars/image-juliusomo.webp'
 		<textarea
 			id="textarea"
 			placeholder="Add a comment..."
+			v-model="content"
 			class="textArea"></textarea>
 		<div class="downBox">
 			<img :src="ownAvatar" alt="Your avatar" class="avatar" />
-			<button class="send" type="button">send</button>
+			<button class="send" type="button" @click="addComment">send</button>
 		</div>
 	</div>
 </template>

@@ -1,38 +1,20 @@
 <script setup>
 import { reactive } from 'vue'
 import { data } from '../data'
-import { nanoid } from 'nanoid'
+import editIcon from '../images/icon-edit.svg'
+import deleteIcon from '../images/icon-delete.svg'
 import Nav from './Nav.vue'
 import replyIcon from '../images/icon-reply.svg'
 import VoteBtns from '../components/Utils/VoteBtns.vue'
 import CommentBox from '../components/CommentBox.vue'
 import ReplyBoxes from '../components/ReplyBoxes.vue'
+import UserComment from './Utils/UserComment.vue'
 
 const DEFAULT_DATA = {
 	commentBox: data.comments,
 }
 
 const newData = reactive(DEFAULT_DATA)
-
-const addComment = (value, index) => {
-	// data.comments[index].replies.push({ id: nanoid(), replyingTo: value.user.username })
-	newData.commentBox[index].replies.push({
-		id: nanoid(),
-		content: '',
-		createdAt: '1 week ago',
-		score: '',
-		replyingTo: '',
-		user: {
-			image: {
-				png: './images/avatars/image-ramsesmiron.png',
-				webp: replyIcon,
-			},
-			username: '',
-		},
-		plusActive: false,
-		minusActive: false,
-	})
-}
 </script>
 <template>
 	<Nav />
@@ -48,6 +30,7 @@ const addComment = (value, index) => {
 						alt="Profile picture"
 						class="avatar" />
 					<p class="nick">{{ value.user.username }}</p>
+					<p v-if="value.user.username === 'juliusomo'" class="you">you</p>
 					<p class="time">{{ value.createdAt }}</p>
 				</div>
 				<p class="desc">
@@ -58,18 +41,29 @@ const addComment = (value, index) => {
 						:index="index"
 						:value="value"
 						:newData="newData.commentBox" />
-					<button class="reply" @click="addComment(value, index)">
+						<UserComment :value="value" />
+					<!-- <button class="reply" v-if="value.user.username !== 'juliusomo'">
 						<img :src="replyIcon" alt="Reply icon" class="replyIcon" />
 						Reply
 					</button>
+					<div
+						class="ownButtons"
+						v-if="value.user.username == 'juliusomo'">
+						<button class="delete">
+							<img :src="deleteIcon" alt="Trash icon" class="deleteIcon" />
+							Delete
+						</button>
+						<button class="edit">
+							<img :src="editIcon" alt="Pencil icon" class="editIcon" />
+							Edit
+						</button>
+					</div> -->
+					
 				</div>
 			</div>
 			<ReplyBoxes :index="index" :newData="newData" />
 		</section>
-		<CommentBox />
-		<div class="addComment">
-			<textarea id="newComment" class="addTextarea"></textarea>
-		</div>
+		<CommentBox :newData="newData" />
 	</main>
 </template>
 

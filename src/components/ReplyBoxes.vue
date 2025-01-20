@@ -1,8 +1,7 @@
 <script setup>
-import editIcon from '../images/icon-edit.svg'
-import deleteIcon from '../images/icon-delete.svg'
 import replyIcon from '../images/icon-reply.svg'
 import RepliesVoteBtns from './Utils/RepliesVoteBtns.vue'
+import UserComment from './Utils/UserComment.vue'
 
 const props = defineProps({
 	index: Number,
@@ -33,20 +32,7 @@ const props = defineProps({
 			</p>
 			<div class="bottomBox">
 				<RepliesVoteBtns :value="value" />
-				<button class="reply" v-if="value.user.username !== 'juliusomo'">
-					<img :src="replyIcon" alt="Reply icon" class="replyIcon" />
-					Reply
-				</button>
-				<div class="ownButtons" v-if="value.user.username == 'juliusomo'">
-					<button class="delete">
-						<img :src="deleteIcon" alt="Trash icon" class="deleteIcon" />
-						Delete
-					</button>
-					<button class="edit">
-						<img :src="editIcon" alt="Pencil icon" class="editIcon" />
-						Edit
-					</button>
-				</div>
+				<UserComment :value="value" />
 			</div>
 		</div>
 	</section>
