@@ -1,87 +1,58 @@
 <script setup>
-const handleTheme = () => {
-	document.body.classList.toggle('darkMode')
-}
+import { inject } from 'vue'
+import sun from '../images/sun.svg'
+import moon from '../images/moon.svg'
+const toggleDarkMode = inject('toggleFunc')
+const darkData = inject('darkData')
 </script>
 
 <template>
 	<nav class="nav">
-		<input
-			type="checkbox"
+		<button @click="toggleDarkMode" class="theme-toggle"></button>
+		<button
+			:class="['toggleBtn', darkData ? 'mon' : 'sun']"
 			role="switch"
-			class="theme-checkbox"
-			@click="handleTheme" />
+			type="button"
+			@click="toggleDarkMode">
+			<img
+				:src="darkData ? moon : sun"
+				alt=""
+				class="btn-icon"
+				:style="{
+					transform: darkData ? 'translateX(3%)' : 'translateX(105%)',
+				}" />
+		</button>
 	</nav>
 </template>
 
 <style scoped lang="scss">
-/* From Uiverse.io by cuzpq */
-.theme-checkbox {
-	--toggle-size: 16px;
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-	width: 6.25em;
-	height: 3.125em;
-	background: -webkit-gradient(
-			linear,
-			left top,
-			right top,
-			color-stop(50%, #bbbbbb),
-			color-stop(50%, #2a2a2a)
-		)
-		no-repeat;
-	background: -o-linear-gradient(left, #bbbbbb 50%, #2a2a2a 50%) no-repeat;
-	background: linear-gradient(to right, #bbbbbb 50%, #2a2a2a 50%) no-repeat;
-	background-size: 205%;
-	background-position: 0;
-	-webkit-transition: 0.4s;
-	-o-transition: 0.4s;
-	transition: 0.4s;
-	border-radius: 99em;
-	position: relative;
-	cursor: pointer;
-	font-size: var(--toggle-size);
-}
-
-.theme-checkbox::before {
-	content: '';
-	width: 2.25em;
-	height: 2.25em;
-	position: absolute;
-
-	top: 0.438em;
-	left: 0.438em;
-	background: -webkit-gradient(
-			linear,
-			left top,
-			right top,
-			color-stop(50%, #efefef),
-			color-stop(50%, #2a2a2a)
-		)
-		no-repeat;
-	background: -o-linear-gradient(left, #efefef 50%, #2a2a2a 50%) no-repeat;
-	background: linear-gradient(to right, #efefef 50%, #2a2a2a 50%) no-repeat;
-	background-size: 205%;
-	background-position: 100%;
-	border-radius: 50%;
-	-webkit-transition: 0.4s;
-	-o-transition: 0.4s;
-	transition: 0.4s;
-}
-
-.theme-checkbox:checked::before {
-	left: calc(100% - 2.25em - 0.438em);
-	background-position: 0;
-}
-
-.theme-checkbox:checked {
-	background-position: 100%;
-}
-
 .nav {
 	padding: 1em;
 	display: flex;
 	justify-content: center;
+}
+
+.toggleBtn {
+	padding: 0.3em 0.4em;
+	width: 4.5em;
+	background-color: #7e7c74;
+	border: 2px solid $moderate-blue;
+	border-radius: 2em;
+	transition: background-color 0.2s;
+}
+
+.btn-icon {
+	display: block;
+	width: 1.7em;
+	transition: transform 0.2s;
+}
+
+.sun {
+	background-color: #ffd700;
+	border-color: #555555;
+}
+.mon {
+	background-color: #7e7c74;
+	border-color: #dcdcdc;
 }
 </style>

@@ -55,7 +55,6 @@ const addComment = (value, index) => {
 				</p>
 				<div class="bottomBox">
 					<VoteBtns
-						@handleVote="handleVote"
 						:index="index"
 						:value="value"
 						:newData="newData.commentBox" />

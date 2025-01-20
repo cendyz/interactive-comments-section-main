@@ -31,10 +31,13 @@ import ownAvatar from '../images/avatars/image-juliusomo.webp'
 	width: 100%;
 	min-height: 6.25em;
 	max-height: 6.25em;
+	background-color: var(--white);
 	border: 1px solid var(--light-gray);
+	color: var(--dark-blue);
 	border-radius: 0.5em;
 	overflow: scroll;
-	transition: border var(--transition-time);
+	transition: border var(--transition-time),
+		background-color var(--transition-time);
 }
 
 .downBox {
@@ -56,6 +59,7 @@ import ownAvatar from '../images/avatars/image-juliusomo.webp'
 	font-size: 1.6rem;
 	background-color: var(--moderate-blue);
 	border-radius: 0.5em;
-	transition: background-color var(--transition-time), color var(--transition-time);
+	transition: background-color var(--transition-time),
+		color var(--transition-time);
 }
 </style>

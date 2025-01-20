@@ -1,6 +1,25 @@
 <script setup>
+import { ref, watchEffect, provide } from 'vue'
 import MainComments from './components/MainComments.vue'
+const isDarkMode = ref(false)
 
+if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+	isDarkMode.value = true
+}
+
+watchEffect(() => {
+	if (isDarkMode.value) {
+		document.body.classList.add('dark-mode')
+	} else {
+		document.body.classList.remove('dark-mode')
+	}
+})
+
+const toggleDarkMode = () => {
+	isDarkMode.value = !isDarkMode.value
+}
+provide('toggleFunc', toggleDarkMode)
+provide('darkData', isDarkMode)
 </script>
 <template>
 	<MainComments />
@@ -22,12 +41,12 @@ import MainComments from './components/MainComments.vue'
 	--transition-time: 0.1s;
 }
 
-.darkMode {
+.dark-mode {
 	--light-gray: hsl(223, 19%, 15%);
 	--white: hsl(0, 0%, 10%);
 	--light-grayish-blue: hsl(239, 57%, 20%);
-	--moderate-blue: hsl(238, 40%, 40%);
-	--soft-red: hsl(358, 79%, 30%);
+	--moderate-blue: hsl(238.3, 39.4%, 65.7%);
+	--soft-red: hsl(358.3, 54.5%, 61.2%);
 	--pale-red: hsl(357, 100%, 40%);
 	--dark-blue: hsl(212, 24%, 80%);
 	--grayish-blue: hsl(211, 10%, 70%);
