@@ -29,6 +29,7 @@ const handleVote = (index, type) => {
 	}
 }
 </script>
+
 <template>
 	<div class="btnsBox">
 		<button

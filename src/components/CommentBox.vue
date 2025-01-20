@@ -22,17 +22,19 @@ import ownAvatar from '../images/avatars/image-juliusomo.webp'
 }
 
 .commentBox {
-	background-color: $white;
+	background-color: var(--white);
 	border-radius: 0.5em;
+	transition: background-color 0.2s;
 }
 
 .textArea {
 	width: 100%;
 	min-height: 6.25em;
 	max-height: 6.25em;
-	border: 1px solid $light-gray;
+	border: 1px solid var(--light-gray);
 	border-radius: 0.5em;
 	overflow: scroll;
+	transition: border var(--transition-time);
 }
 
 .downBox {
@@ -49,10 +51,11 @@ import ownAvatar from '../images/avatars/image-juliusomo.webp'
 
 .send {
 	padding: 0.6em 1.5em;
-	color: $white;
+	color: var(--white);
 	text-transform: uppercase;
 	font-size: 1.6rem;
-	background-color: $moderate-blue;
+	background-color: var(--moderate-blue);
 	border-radius: 0.5em;
+	transition: background-color var(--transition-time), color var(--transition-time);
 }
 </style>

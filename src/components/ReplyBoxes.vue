@@ -9,8 +9,9 @@ const props = defineProps({
 	newData: Object,
 })
 </script>
+
 <template>
-	<div
+	<section
 		class="mainReplyBox"
 		v-if="props.newData.commentBox[props.index].replies.length > 0">
 		<div
@@ -48,7 +49,7 @@ const props = defineProps({
 				</div>
 			</div>
 		</div>
-	</div>
+	</section>
 </template>
 
 <style scoped lang="scss">
@@ -62,7 +63,8 @@ const props = defineProps({
 
 .mainReplyBox {
 	margin-left: auto;
-	border-left: 2px solid $light-grayish-blue;
+	border-left: 2px solid var(--light-grayish-blue);
+	transition: border-left var(--transition-time);
 }
 
 .insdieReplyBox {
@@ -70,8 +72,9 @@ const props = defineProps({
 	width: 93%;
 	border-radius: 0.5em;
 	margin-left: auto;
-	background-color: $white;
+	background-color: var(--white);
 	margin-bottom: 1em;
+	transition: background-color var(--transition-time);
 }
 .upperBox {
 	align-items: center;
@@ -79,17 +82,19 @@ const props = defineProps({
 }
 
 .calledUser {
-	color: $moderate-blue;
+	color: var(--moderate-blue);
 	font-weight: $weight-500;
+	transition: color 0.2s;
 }
 
 .you {
 	padding: 0.2em 0.6em;
 	border-radius: 0.2em;
-	background-color: $moderate-blue;
-	color: $white;
+	background-color: var(--moderate-blue);
+	color: var(--white);
 	font-size: 1.2rem;
 	font-weight: $weight-500;
+	transition: color 0.2s, background-color 0.2s;
 }
 
 .ownButtons {
@@ -102,13 +107,14 @@ const props = defineProps({
 	column-gap: 0.3em;
 	font-weight: $weight-500;
 	font-size: 1.6rem;
+	transition: color var(--transition-time);
 }
 
 .delete {
-	color: $soft-red;
+	color: var(--soft-red);
 }
 
 .edit {
-	color: $moderate-blue;
+	color: var(--moderate-blue);
 }
 </style>
