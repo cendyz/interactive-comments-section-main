@@ -1,21 +1,11 @@
-<script setup>
-import replyIcon from '../images/icon-reply.svg'
-import RepliesVoteBtns from './Utils/RepliesVoteBtns.vue'
-import UserComment from './Utils/UserComment.vue'
-
-const props = defineProps({
-	index: Number,
-	newData: Object,
-})
-</script>
-
 <template>
 	<section
 		class="mainReplyBox"
 		v-if="props.newData.commentBox[props.index].replies.length > 0">
 		<div
 			class="insdieReplyBox"
-			v-for="value in props.newData.commentBox[props.index].replies"
+			v-for="(value, index) in props.newData.commentBox[props.index]
+				.replies"
 			:key="value.id">
 			<div class="upperBox">
 				<img
@@ -25,6 +15,7 @@ const props = defineProps({
 				<p class="nick">{{ value.user.username }}</p>
 				<p v-if="value.user.username === 'juliusomo'" class="you">you</p>
 				<p class="time">{{ value.createdAt }}</p>
+			
 			</div>
 			<p class="desc">
 				<span class="calledUser">@{{ value.replyingTo }}</span>
@@ -32,15 +23,31 @@ const props = defineProps({
 			</p>
 			<div class="bottomBox">
 				<RepliesVoteBtns :value="value" />
-				<UserComment :value="value" />
+				<UserComment
+					:value="value"
+					:replyIndex="index"
+					:propIndex="props.index"
+					:newData="props.newData"
+					/>
 			</div>
 		</div>
 	</section>
 </template>
 
+<script setup>
+import RepliesVoteBtns from './Utils/RepliesVoteBtns.vue'
+import UserComment from './Utils/UserComment.vue'
+
+const props = defineProps({
+	index: Number,
+	newData: Object,
+})
+
+
+</script>
+
 <style scoped lang="scss">
 @include mainBox;
-.ownButtons,
 .delete,
 .edit,
 .upperBox {
@@ -70,7 +77,7 @@ const props = defineProps({
 .calledUser {
 	color: var(--moderate-blue);
 	font-weight: $weight-500;
-	transition: color 0.2s;
+	transition: color var(--transition-time);
 }
 
 .you {
@@ -80,27 +87,7 @@ const props = defineProps({
 	color: var(--white);
 	font-size: 1.2rem;
 	font-weight: $weight-500;
-	transition: color 0.2s, background-color 0.2s;
-}
-
-.ownButtons {
-	column-gap: 1.2em;
-}
-
-.delete,
-.edit {
-	align-items: center;
-	column-gap: 0.3em;
-	font-weight: $weight-500;
-	font-size: 1.6rem;
-	transition: color var(--transition-time);
-}
-
-.delete {
-	color: var(--soft-red);
-}
-
-.edit {
-	color: var(--moderate-blue);
+	transition: color var(--transition-time),
+		background-color var(--transition-time);
 }
 </style>

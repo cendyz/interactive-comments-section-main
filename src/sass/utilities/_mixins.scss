@@ -24,7 +24,6 @@
 	.leftBtn,
 	.rightBtn {
 		color: var(--grayish-blue);
-		transition: color var(--transition-time);
 	}
 
 	.disableVote {
@@ -45,10 +44,14 @@
 		font-weight: $weight-500;
 	}
 
+	.desc,
+	.reply {
+		transition: color var(--transition-time);
+	}
+
 	.time,
 	.desc {
 		color: var(--grayish-blue);
-		transition: color var(--transition-time);
 	}
 
 	.desc {
@@ -67,7 +70,6 @@
 		font-size: 1.6rem;
 		font-weight: $weight-500;
 		color: var(--moderate-blue);
-		transition: color var(--transition-time)
 	}
 
 	.replyIcon {

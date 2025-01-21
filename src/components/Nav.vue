@@ -1,11 +1,3 @@
-<script setup>
-import { inject } from 'vue'
-import sun from '../images/sun.svg'
-import moon from '../images/moon.svg'
-const toggleDarkMode = inject('toggleFunc')
-const darkData = inject('darkData')
-</script>
-
 <template>
 	<nav class="nav">
 		<button @click="toggleDarkMode" class="theme-toggle"></button>
@@ -25,6 +17,14 @@ const darkData = inject('darkData')
 	</nav>
 </template>
 
+<script setup>
+import { inject } from 'vue'
+import sun from '../images/sun.svg'
+import moon from '../images/moon.svg'
+const toggleDarkMode = inject('toggleFunc')
+const darkData = inject('darkData')
+</script>
+
 <style scoped lang="scss">
 .nav {
 	padding: 1em;
@@ -38,13 +38,13 @@ const darkData = inject('darkData')
 	background-color: #7e7c74;
 	border: 2px solid $moderate-blue;
 	border-radius: 2em;
-	transition: background-color 0.2s;
+	transition: background-color var(--transition-time);
 }
 
 .btn-icon {
 	display: block;
 	width: 1.7em;
-	transition: transform 0.2s;
+	transition: transform var(--transition-time);
 }
 
 .sun {

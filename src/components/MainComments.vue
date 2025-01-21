@@ -1,21 +1,3 @@
-<script setup>
-import { reactive } from 'vue'
-import { data } from '../data'
-import editIcon from '../images/icon-edit.svg'
-import deleteIcon from '../images/icon-delete.svg'
-import Nav from './Nav.vue'
-import replyIcon from '../images/icon-reply.svg'
-import VoteBtns from '../components/Utils/VoteBtns.vue'
-import CommentBox from '../components/CommentBox.vue'
-import ReplyBoxes from '../components/ReplyBoxes.vue'
-import UserComment from './Utils/UserComment.vue'
-
-const DEFAULT_DATA = {
-	commentBox: data.comments,
-}
-
-const newData = reactive(DEFAULT_DATA)
-</script>
 <template>
 	<Nav />
 	<main class="main">
@@ -41,24 +23,7 @@ const newData = reactive(DEFAULT_DATA)
 						:index="index"
 						:value="value"
 						:newData="newData.commentBox" />
-						<UserComment :value="value" />
-					<!-- <button class="reply" v-if="value.user.username !== 'juliusomo'">
-						<img :src="replyIcon" alt="Reply icon" class="replyIcon" />
-						Reply
-					</button>
-					<div
-						class="ownButtons"
-						v-if="value.user.username == 'juliusomo'">
-						<button class="delete">
-							<img :src="deleteIcon" alt="Trash icon" class="deleteIcon" />
-							Delete
-						</button>
-						<button class="edit">
-							<img :src="editIcon" alt="Pencil icon" class="editIcon" />
-							Edit
-						</button>
-					</div> -->
-					
+					<UserComment :value="value" />
 				</div>
 			</div>
 			<ReplyBoxes :index="index" :newData="newData" />
@@ -66,6 +31,24 @@ const newData = reactive(DEFAULT_DATA)
 		<CommentBox :newData="newData" />
 	</main>
 </template>
+
+<script setup>
+import { reactive } from 'vue'
+import { data } from '../data'
+import {
+	Nav,
+	VoteBtns,
+	CommentBox,
+	ReplyBoxes,
+	UserComment,
+} from './index'
+
+const DEFAULT_DATA = {
+	commentBox: data.comments,
+}
+
+const newData = reactive(DEFAULT_DATA)
+</script>
 
 <style scoped lang="scss">
 @include mainBox;
@@ -84,6 +67,10 @@ const newData = reactive(DEFAULT_DATA)
 	margin-bottom: 1em;
 	background-color: var(--white);
 	border-radius: 0.5em;
+}
+
+.box,
+.insdieReplyBox {
 	transition: background-color var(--transition-time);
 }
 
@@ -104,7 +91,6 @@ const newData = reactive(DEFAULT_DATA)
 	margin-left: auto;
 	background-color: var(--light-gray);
 	margin-bottom: 1em;
-	transition: background-color var(--transition-time);
 }
 
 .calledUser {
@@ -122,9 +108,5 @@ const newData = reactive(DEFAULT_DATA)
 	font-weight: $weight-500;
 	transition: background-color var(--transition-time),
 		color var(--transition-time);
-}
-
-.ownButtons {
-	column-gap: 1.2em;
 }
 </style>

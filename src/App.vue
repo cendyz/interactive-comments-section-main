@@ -38,7 +38,7 @@ provide('darkData', isDarkMode)
 	--dark-blue: hsl(212, 24%, 26%);
 	--grayish-blue: hsl(211, 10%, 45%);
 	--very-light-gray: hsl(228, 33%, 97%);
-	--transition-time: 0.1s;
+	--transition-time: 0.15s;
 }
 
 .dark-mode {
@@ -58,6 +58,6 @@ body {
 	font-family: 'Rubik', serif;
 	font-size: 1.6rem;
 	background-color: var(--light-gray);
-	transition: background-color 0.2s;
+	transition: background-color var(--transition-time);
 }
 </style>

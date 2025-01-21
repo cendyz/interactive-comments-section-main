@@ -1,3 +1,19 @@
+<template>
+	<div class="btnsBox">
+		<button
+			:class="['leftBtn', { disableVote: value.plusActive }]"
+			@click="handleVote(props.index, 'up')">
+			+
+		</button>
+		<p class="votes">{{ value.score }}</p>
+		<button
+			:class="['rightBtn', { disableVote: value.minusActive }]"
+			@click="handleVote(props.index, 'down')">
+			-
+		</button>
+	</div>
+</template>
+
 <script setup>
 const props = defineProps({
 	index: Number,
@@ -6,6 +22,7 @@ const props = defineProps({
 })
 
 const handleVote = (index, type) => {
+	console.log(index);
 	const comment = props.newData[index]
 
 	if (type === 'up') {
@@ -29,22 +46,6 @@ const handleVote = (index, type) => {
 	}
 }
 </script>
-
-<template>
-	<div class="btnsBox">
-		<button
-			:class="['leftBtn', { disableVote: value.plusActive }]"
-			@click="handleVote(props.index, 'up')">
-			+
-		</button>
-		<p class="votes">{{ value.score }}</p>
-		<button
-			:class="['rightBtn', { disableVote: value.minusActive }]"
-			@click="handleVote(props.index, 'down')">
-			-
-		</button>
-	</div>
-</template>
 
 <style scoped lang="scss">
 @include voteBtns;

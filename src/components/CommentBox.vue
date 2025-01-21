@@ -1,3 +1,18 @@
+<template>
+	<div class="commentBox">
+		<textarea
+			id="textarea"
+			placeholder="Add a comment..."
+			v-model="content"
+			class="textArea"></textarea>
+		<div class="downBox">
+			<img :src="ownAvatar" alt="Your avatar" class="avatar" />
+			<button class="send" type="button" @click="addComment">send</button>
+		</div>
+	</div>
+
+</template>
+
 <script setup>
 import ownAvatar from '../images/avatars/image-juliusomo.webp'
 import { nanoid } from 'nanoid'
@@ -27,20 +42,6 @@ const addComment = () => {
 	})
 }
 </script>
-
-<template>
-	<div class="commentBox">
-		<textarea
-			id="textarea"
-			placeholder="Add a comment..."
-			v-model="content"
-			class="textArea"></textarea>
-		<div class="downBox">
-			<img :src="ownAvatar" alt="Your avatar" class="avatar" />
-			<button class="send" type="button" @click="addComment">send</button>
-		</div>
-	</div>
-</template>
 
 <style scoped lang="scss">
 .commentBox,
