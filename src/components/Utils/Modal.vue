@@ -19,10 +19,6 @@
 <script setup>
 const props = defineProps({
 	isOpen: Boolean,
-	value: Object,
-	replyIndex: Number,
-	propIndex: Number,
-	newData: Object,
 })
 
 const emit = defineEmits(['close'])
