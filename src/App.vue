@@ -13,7 +13,6 @@ watchEffect(() => {
 	} else {
 		document.body.style.overflow = 'visible'
 	}
-
 })
 </script>
 
@@ -25,13 +24,15 @@ watchEffect(() => {
 		@passSecondIndex="secondIndex = $event" />
 	<div class="shadow" v-show="isOpen === true"></div>
 	<Teleport to="body">
-		<Modal
-			:isOpen="isOpen"
-			@closeModal="isOpen = $event"
-			:mainIndex="mainIndex"
-			:secondIndex="secondIndex"
-			@resetSecondIndex="secondIndex = $event"
-			@resetMainIndex="mainIndex = $event" />
+		
+			<Modal
+				:isOpen="isOpen"
+				@closeModal="isOpen = $event"
+				:mainIndex="mainIndex"
+				:secondIndex="secondIndex"
+				@resetSecondIndex="secondIndex = $event"
+				@resetMainIndex="mainIndex = $event" />
+		
 	</Teleport>
 </template>
 
@@ -77,4 +78,5 @@ body {
 .no-error-border {
 	border-color: blue;
 }
+
 </style>

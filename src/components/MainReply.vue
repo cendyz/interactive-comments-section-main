@@ -19,6 +19,7 @@ const props = defineProps({
 	openModal: Function,
 })
 
+
 const handleReplyVote = (
 	secIndex: number,
 	firstIndex: number,
@@ -69,7 +70,7 @@ const updateComment = (mainIndex: number, secondIndex: number) => {
 			</p>
 			<p
 				v-show="props.secondValue.user.username === 'juliusomo'"
-				class="px-3 pt-1 pb-[3px] text-white bg-moderate-blue text-2xl rounded-lg">
+				class="px-3 pt-1 pb-[5px] text-white bg-moderate-blue text-2xl rounded-lg">
 				you
 			</p>
 			<p class="text-grayish-blue">{{ props.secondValue.createdAt }}</p>

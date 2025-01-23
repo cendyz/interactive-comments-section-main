@@ -19,10 +19,14 @@ const closeModal = () => {
 }
 
 const deleteComment = () => {
-	newData.data.comments[props.mainIndex].replies.splice(
-		props.secondIndex,
-		1
-	)
+	if (props.secondIndex === null) {
+		newData.data.comments.splice(props.mainIndex, 1)
+	} else {
+		newData.data.comments[props.mainIndex].replies.splice(
+			props.secondIndex,
+			1
+		)
+	}
 	emit('closeModal', false)
 	emit('resetMainIndex', null)
 	emit('resetSecondIndex', null)

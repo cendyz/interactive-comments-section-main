@@ -7,14 +7,20 @@ import MainReply from '../MainReply.vue'
 import ReplyReply from '../ReplyReply.vue'
 import replyIcon from '@/images/icon-reply.svg'
 import ownAvatar from '@/images/avatars/image-juliusomo.webp'
+import AddComment from '../AddComment.vue'
+import deleteIcon from '@/images/icon-delete.svg'
+import editIcon from '@/images/icon-edit.svg'
 
 const commentsData = reactive({ data })
 const replyIndex = ref(null)
 const replyCommentIndex = ref(null)
 const textareaContent = ref('')
+const activeEditindex = ref(null)
+const updatedText = ref('')
 const errorBorder = ref(false)
 const passedMainIndex = ref(null)
 const passedSecondIndex = ref(null)
+const isEdit = ref(false)
 
 const emit = defineEmits([
 	'changeIsOpen',
@@ -30,9 +36,6 @@ const handleToggle = (
 ) => {
 	errorBorder.value = false
 	otherRef.value = null
-	if (actualRef.value === otherRef.value) {
-		replyIndex.value = null
-	}
 	actualRef.value = actualRef.value === index ? null : index
 }
 
@@ -44,6 +47,13 @@ const handleReply = (index: number) => {
 const handleCommentReply = (index: number) => {
 	textareaContent.value = ''
 	handleToggle(replyCommentIndex, replyIndex, index)
+}
+
+const handleEdit = (mainIndex: number) => {
+	textareaContent.value = commentsData.data.comments[mainIndex].content
+	updatedText.value = textareaContent.value
+	activeEditindex.value = mainIndex
+	isEdit.value = true
 }
 
 const addReply = (index: number, reply: string) => {
@@ -73,22 +83,34 @@ const addReply = (index: number, reply: string) => {
 	}
 }
 
-const formatTimeAgo = (timestamp: number) => {
-	const seconds = Math.floor((Date.now() - timestamp) / 1000)
-
-	if (seconds < 60) {
-		return `${seconds} seconds ago`
-	} else if (seconds < 3600) {
-		const minutes = Math.floor(seconds / 60)
-		return `${minutes} minutes ago`
-	} else if (seconds < 86400) {
-		const hours = Math.floor(seconds / 3600)
-		return `${hours} hours ago`
+const updateComment = (mainIndex: number) => {
+	if (updatedText.value !== '') {
+		commentsData.data.comments[mainIndex].content = updatedText.value
+		updatedText.value = ''
+		isEdit.value = false
+		errorBorder.value = false
+		activeEditindex.value = null
 	} else {
-		const days = Math.floor(seconds / 86400)
-		return `${days} days ago`
+		errorBorder.value = true
 	}
 }
+
+// const formatTimeAgo = (timestamp: number) => {
+// 	const seconds = Math.floor((Date.now() - timestamp) / 1000)
+
+// 	if (seconds < 60) {
+// 		return `${seconds} seconds ago`
+// 	} else if (seconds < 3600) {
+// 		const minutes = Math.floor(seconds / 60)
+// 		return `${minutes} minutes ago`
+// 	} else if (seconds < 86400) {
+// 		const hours = Math.floor(seconds / 3600)
+// 		return `${hours} hours ago`
+// 	} else {
+// 		const days = Math.floor(seconds / 86400)
+// 		return `${days} days ago`
+// 	}
+// }
 
 const replyToMain = (mainIndex: number) => {
 	const reply = data.comments[mainIndex].user.username
@@ -137,14 +159,14 @@ const handleReplyVote = (
 const openModal = (mainIndex: number, secondIndex: number) => {
 	emit('changeIsOpen', true)
 	passedMainIndex.value = mainIndex
-	passedSecondIndex.value = secondIndex
+	passedSecondIndex.value = secondIndex || null
 	emit('passMainIndex', passedMainIndex.value)
 	emit('passSecondIndex', passedSecondIndex.value)
 }
 </script>
 
 <template>
-	<section class="grid gap-y-8 p-6">
+	<section class="grid gap-y-4 p-6">
 		<div
 			v-for="(cbValue, cbIndex) in commentsData.data.comments"
 			:key="cbValue.id">
@@ -157,9 +179,22 @@ const openModal = (mainIndex: number, secondIndex: number) => {
 					<p class="text-dark-blue font-bold">
 						{{ cbValue.user.username }}
 					</p>
+					<p
+						v-show="cbValue.user.username === 'juliusomo'"
+						class="px-3 pt-1 pb-[5px] text-white bg-moderate-blue text-2xl rounded-lg">
+						you
+					</p>
 					<p class="text-grayish-blue">{{ cbValue.createdAt }}</p>
 				</div>
-				<p class="text-grayish-blue mb-8">
+				<textarea
+					v-if="isEdit && cbIndex === activeEditindex"
+					v-model="updatedText"
+					:class="[
+						'w-full p-6 mb-3 border-b-light-grayish-blue border rounded-xl max-h-[9rem] min-h=[9rem] outline-none focus:border-dark-blue focus:border-2',
+						{ 'error-border': errorBorder },
+						{ 'no-error-border': updatedText.length > 0 },
+					]"></textarea>
+				<p v-else class="text-grayish-blue mb-8">
 					{{ cbValue.content }}
 				</p>
 				<div class="flex items-center justify-between">
@@ -180,6 +215,7 @@ const openModal = (mainIndex: number, secondIndex: number) => {
 						</button>
 					</div>
 					<button
+						v-if="cbValue.user.username !== 'juliusomo'"
 						class="flex items-center gap-x-3"
 						type="button"
 						@click="handleReply(cbIndex)">
@@ -188,6 +224,38 @@ const openModal = (mainIndex: number, secondIndex: number) => {
 							>Reply</span
 						>
 					</button>
+					<div
+						class="flex gap-x-8"
+						v-show="cbValue.user.username === 'juliusomo'">
+						<button
+							class="flex items-center"
+							type="button"
+							@click="openModal(cbIndex, null)">
+							<img :src="deleteIcon" alt="trash icon" />
+							<span class="ml-2 font-bold text-soft-red">Delete</span>
+						</button>
+						<button
+							class="flex items-center"
+							type="button"
+							v-if="cbIndex !== activeEditindex">
+							<img :src="editIcon" alt="arrow icon" />
+							<span
+								class="ml-2 font-bold text-moderate-blue"
+								@click="handleEdit(cbIndex)"
+								>Edit</span
+							>
+						</button>
+						<button
+							v-else-if="cbIndex === activeEditindex"
+							class="flex items-center gap-x-3"
+							type="button"
+							@click="updateComment(cbIndex)">
+							<img :src="replyIcon" alt="reply icon" />
+							<span class="text-2xl text-moderate-blue font-bold"
+								>Update</span
+							>
+						</button>
+					</div>
 				</div>
 			</div>
 
@@ -212,7 +280,6 @@ const openModal = (mainIndex: number, secondIndex: number) => {
 							:secondIndex="rpIndex"
 							:mainIndex="cbIndex"
 							:handleReplyVote="handleReplyVote"
-							:replyCommentIndex="replyCommentIndex"
 							:handleCommentReply="handleCommentReply"
 							:openModal="openModal" />
 
@@ -228,5 +295,6 @@ const openModal = (mainIndex: number, secondIndex: number) => {
 				</div>
 			</div>
 		</div>
+		<AddComment />
 	</section>
 </template>
