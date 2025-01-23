@@ -1,13 +1,12 @@
-import amyrobson from './images/avatars/image-amyrobson.webp'
-import maxblaugn from './images/avatars/image-maxblagun.webp'
-import ramseAvatar from './images/avatars/image-ramsesmiron.webp'
-import julioAvatar from './images/avatars/image-juliusomo.webp'
+import juliusomoAvatar from './images/avatars/image-juliusomo.webp'
+import amyrobsonAvatar from './images/avatars/image-amyrobson.webp'
+import maxblagunAvatar from './images/avatars/image-maxblagun.webp'
+import ramsesmironAvatar from './images/avatars/image-ramsesmiron.png'
 
 export const data = {
 	currentUser: {
 		image: {
-			png: './images/avatars/image-juliusomo.png',
-			webp: './images/avatars/image-juliusomo.webp',
+			webp: juliusomoAvatar,
 		},
 		username: 'juliusomo',
 	},
@@ -20,14 +19,11 @@ export const data = {
 			score: 12,
 			user: {
 				image: {
-					png: './images/avatars/image-amyrobson.png',
-					webp: amyrobson,
+					webp: amyrobsonAvatar,
 				},
 				username: 'amyrobson',
 			},
 			replies: [],
-			plusActive: false,
-			minusActive: false,
 		},
 		{
 			id: 2,
@@ -37,13 +33,12 @@ export const data = {
 			score: 5,
 			user: {
 				image: {
-					png: './images/avatars/image-maxblagun.png',
-					webp: maxblaugn,
+					webp: maxblagunAvatar,
 				},
 				username: 'maxblagun',
-				plusActive: false,
-				minusActive: false,
 			},
+			activePlus: false,
+			activeMinus: false,
 			replies: [
 				{
 					id: 3,
@@ -54,13 +49,12 @@ export const data = {
 					replyingTo: 'maxblagun',
 					user: {
 						image: {
-							png: './images/avatars/image-ramsesmiron.png',
-							webp: ramseAvatar,
+							webp: ramsesmironAvatar,
 						},
 						username: 'ramsesmiron',
 					},
-					plusActive: false,
-					minusActive: false,
+					activePlus: false,
+					activeMinus: false,
 				},
 				{
 					id: 4,
@@ -71,13 +65,12 @@ export const data = {
 					replyingTo: 'ramsesmiron',
 					user: {
 						image: {
-							png: './images/avatars/image-juliusomo.png',
-							webp: julioAvatar,
+							webp: juliusomoAvatar,
 						},
 						username: 'juliusomo',
 					},
-					plusActive: false,
-					minusActive: false,
+					activePlus: false,
+					activeMinus: false,
 				},
 			],
 		},
