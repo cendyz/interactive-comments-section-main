@@ -5,7 +5,28 @@ import Modal from '@/components/Modal/index.vue'
 const isOpen = ref(false)
 const mainIndex = ref(null)
 const secondIndex = ref(null)
-const time = ref(0)
+const currentTheme = ref(localStorage.getItem('theme') || 'light')
+
+const toggleTheme = () => {
+	if (currentTheme.value === 'light') {
+		currentTheme.value = 'dark'
+		document.documentElement.classList.add('dark')
+		document.documentElement.setAttribute('data-theme', 'dark')
+	} else {
+		currentTheme.value = 'light'
+		document.documentElement.classList.remove('dark')
+		document.documentElement.setAttribute('data-theme', 'light')
+	}
+	localStorage.setItem('theme', currentTheme.value)
+}
+
+if (currentTheme.value === 'dark') {
+	document.documentElement.classList.add('dark')
+	document.documentElement.setAttribute('data-theme', 'dark')
+} else {
+	document.documentElement.classList.remove('dark')
+	document.documentElement.setAttribute('data-theme', 'light')
+}
 
 watchEffect(() => {
 	if (isOpen.value) {
@@ -17,6 +38,11 @@ watchEffect(() => {
 </script>
 
 <template>
+	<transition name="shadow">
+		<div
+			class="SHADOW absolute top-0 left-0 w-full h-full bg-black/30 z-10 dark:bg-white/30"
+			v-if="isOpen"></div>
+	</transition>
 	<CommentBox
 		:isOpen="isOpen"
 		@changeIsOpen="isOpen = $event"
@@ -24,16 +50,17 @@ watchEffect(() => {
 		@passSecondIndex="secondIndex = $event" />
 	<div class="shadow" v-show="isOpen === true"></div>
 	<Teleport to="body">
-		
-			<Modal
-				:isOpen="isOpen"
-				@closeModal="isOpen = $event"
-				:mainIndex="mainIndex"
-				:secondIndex="secondIndex"
-				@resetSecondIndex="secondIndex = $event"
-				@resetMainIndex="mainIndex = $event" />
-		
+		<Modal
+			:isOpen="isOpen"
+			@closeModal="isOpen = $event"
+			:mainIndex="mainIndex"
+			:secondIndex="secondIndex"
+			@resetSecondIndex="secondIndex = $event"
+			@resetMainIndex="mainIndex = $event" />
 	</Teleport>
+	<button @click="toggleTheme" class="uppercase text-[3rem]">
+		toggle
+	</button>
 </template>
 
 <style lang="scss">
@@ -51,32 +78,18 @@ watchEffect(() => {
 	--very-light-gray: hsl(228, 33%, 20%);
 }
 
-body {
-	position: relative;
-	font-family: 'Rubik', serif;
-	font-size: 1.6rem;
-	background-color: var(--light-gray);
-	transition: background-color var(--transition-time);
-	background-color: #333;
+.shadow-enter-from,
+.shadow-leave-to {
+	opacity: 0;
 }
 
-.shadow {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.3);
-	overflow: hidden;
-	z-index: 10;
+.shadow-enter-active,
+.shadow.leave-active {
+	transition: opacity 0.15s;
 }
 
-.error-border {
-	border-color: red;
+.shadow-enter-to,
+.shadow-leave-to {
+	opacity: 1;
 }
-
-.no-error-border {
-	border-color: blue;
-}
-
 </style>

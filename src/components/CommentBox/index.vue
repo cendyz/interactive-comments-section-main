@@ -1,5 +1,152 @@
+<template>
+	<section class="grid gap-y-4 p-6">
+		<div
+			v-for="(cbValue, cbIndex) in commentsData.data.comments"
+			:key="cbValue.id">
+			<div
+				class="p-8 pr-9 rounded-2xl bg-white dark:bg-whiteDARK text-2xl">
+				<div class="flex items-center mb-7 gap-x-7">
+					<img
+						:src="cbValue.user.image.webp"
+						alt="profile picture"
+						class="block w-14" />
+					<p class="text-dark-blue dark:text-darkBlueDARK">
+						{{ cbValue.user.username }}
+					</p>
+					<p
+						v-show="cbValue.user.username === 'juliusomo'"
+						class="px-3 pt-1 pb-[5px] bg-moderate-blue dark:text-whiteDARK text-white dark:bg-moderateBlueDARK text-2xl rounded-lg">
+						you
+					</p>
+					<p class="text-grayish-blue dark:text-grayishBlueDARK">
+						{{ cbValue.createdAt }}
+					</p>
+				</div>
+				<textarea
+					v-if="isEdit && cbIndex === activeEditindex"
+					v-model="updatedText"
+					:class="[
+						'w-full p-6 mb-3 border-b-light-grayish-blue bg-white dark:bg-whiteDARK text-dark-blue dark:text-darkBlueDARK dark:border-b-lightGrayishBlueDARK border rounded-xl max-h-[9rem] min-h=[9rem] outline-none focus:border-dark-blue dark:focus:border-darkBlueDARK focus:border-2',
+						{ 'border-soft-red dark:border-softRedDARK': errorBorder },
+						{
+							'border-moderate-blue dark:border-moderateBlueDARK':
+								updatedText.length > 0,
+						},
+					]"></textarea>
+				<p v-else class="text-grayish-blue dark:text-grayishBlueDARK mb-8">
+					{{ cbValue.content }}
+				</p>
+				<div class="flex items-center justify-between">
+					<div
+						class="flex items-center bg-light-gray dark:bg-lightGrayDARK rounded-2xl min-w-32 justify-center">
+						<button
+							class="font-bold text-2xl text-dark-blue dark:text-darkBlueDARK py-3 px-5"
+							@click="handleMainCommentVote(cbIndex, 'up')">
+							+
+						</button>
+						<p
+							class="font-bold text-2xl text-moderate-blue dark:text-moderateBlueDARK">
+							{{ cbValue.score }}
+						</p>
+						<button
+							class="font-bold text-2xl text-dark-blue dark:text-darkBlueDARK py-3 px-5"
+							@click="handleMainCommentVote(cbIndex, 'down')">
+							-
+						</button>
+					</div>
+					<button
+						v-if="cbValue.user.username !== 'juliusomo'"
+						class="flex items-center gap-x-3"
+						type="button"
+						@click="handleReply(cbIndex)">
+						<img :src="replyIcon" alt="reply icon" />
+						<span
+							class="font-bold text-2xl text-moderate-blue dark:text-moderateBlueDARK"
+							>Reply</span
+						>
+					</button>
+					<div
+						class="flex gap-x-8"
+						v-show="cbValue.user.username === 'juliusomo'">
+						<button
+							class="flex items-center"
+							type="button"
+							@click="openModal(cbIndex, null)">
+							<img :src="deleteIcon" alt="trash icon" />
+							<span
+								class="ml-2 font-bold text-soft-red dark:text-softRedDARK"
+								>Delete</span
+							>
+						</button>
+						<button
+							class="flex items-center"
+							type="button"
+							v-if="cbIndex !== activeEditindex">
+							<img :src="editIcon" alt="arrow icon" />
+							<span
+								class="ml-2 font-bold text-moderate-blue dark:text-moderateBlueDARK"
+								@click="handleEdit(cbIndex)"
+								>Edit</span
+							>
+						</button>
+						<button
+							v-else-if="cbIndex === activeEditindex"
+							class="flex items-center gap-x-3"
+							type="button"
+							@click="updateComment(cbIndex)">
+							<img :src="replyIcon" alt="reply icon" />
+							<span
+								class="text-2xl text-moderate-blue dark:text-moderateBlueDARK font-bold"
+								>Update</span
+							>
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<AddMainReply
+				:mainCommentIndex="cbIndex"
+				:replyIndex="replyIndex"
+				:data="commentsData"
+				:mainCommentValue="cbValue"
+				:errorBorder="errorBorder"
+				:replyToMain="replyToMain"
+				@shareAreaContent="textareaContent = $event" />
+
+			<div
+				class="pl-5 border-l-4 border-dark-blue dark:border-darkBlueDARK rounded-md">
+				<div class="mt-5" v-if="cbValue.replies.length > 0">
+					<div
+						class="mb-5"
+						v-for="(rpValue, rpIndex) in commentsData.data.comments[
+							cbIndex
+						].replies">
+						<MainReply
+							:secondValue="rpValue"
+							:secondIndex="rpIndex"
+							:mainIndex="cbIndex"
+							:handleReplyVote="handleReplyVote"
+							:handleCommentReply="handleCommentReply"
+							:openModal="openModal" />
+
+						<ReplyReply
+							:data="commentsData"
+							:secondIndex="rpIndex"
+							:replyCommentIndex="replyCommentIndex"
+							:mainIndex="cbIndex"
+							:replyToReply="replyToReply"
+							:errorBorder="errorBorder"
+							@shareAreaContent="textareaContent = $event" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<AddComment />
+	</section>
+</template>
+
 <script setup lang="ts">
-import { reactive, ref, provide } from 'vue'
+import { reactive, ref } from 'vue'
 import { data } from '@/data'
 import { nanoid } from 'nanoid'
 import AddMainReply from '../AddMainReply.vue'
@@ -58,9 +205,8 @@ const handleEdit = (mainIndex: number) => {
 
 const addReply = (index: number, reply: string) => {
 	if (textareaContent.value !== '') {
-		const id = nanoid()
 		data.comments[index].replies.push({
-			id: id as any,
+			id: nanoid() as any,
 			content: textareaContent.value,
 			createdAt: 'Now',
 			score: 0,
@@ -164,137 +310,3 @@ const openModal = (mainIndex: number, secondIndex: number) => {
 	emit('passSecondIndex', passedSecondIndex.value)
 }
 </script>
-
-<template>
-	<section class="grid gap-y-4 p-6">
-		<div
-			v-for="(cbValue, cbIndex) in commentsData.data.comments"
-			:key="cbValue.id">
-			<div class="p-8 pr-9 rounded-2xl bg-white text-2xl">
-				<div class="flex items-center mb-7 gap-x-7">
-					<img
-						:src="cbValue.user.image.webp"
-						alt="profile picture"
-						class="block w-14" />
-					<p class="text-dark-blue font-bold">
-						{{ cbValue.user.username }}
-					</p>
-					<p
-						v-show="cbValue.user.username === 'juliusomo'"
-						class="px-3 pt-1 pb-[5px] text-white bg-moderate-blue text-2xl rounded-lg">
-						you
-					</p>
-					<p class="text-grayish-blue">{{ cbValue.createdAt }}</p>
-				</div>
-				<textarea
-					v-if="isEdit && cbIndex === activeEditindex"
-					v-model="updatedText"
-					:class="[
-						'w-full p-6 mb-3 border-b-light-grayish-blue border rounded-xl max-h-[9rem] min-h=[9rem] outline-none focus:border-dark-blue focus:border-2',
-						{ 'error-border': errorBorder },
-						{ 'no-error-border': updatedText.length > 0 },
-					]"></textarea>
-				<p v-else class="text-grayish-blue mb-8">
-					{{ cbValue.content }}
-				</p>
-				<div class="flex items-center justify-between">
-					<div
-						class="flex items-center bg-light-gray rounded-2xl min-w-32 justify-center">
-						<button
-							class="font-bold text-2xl text-light-grayish-blue py-3 px-5"
-							@click="handleMainCommentVote(cbIndex, 'up')">
-							+
-						</button>
-						<p class="font-bold text-2xl text-moderate-blue">
-							{{ cbValue.score }}
-						</p>
-						<button
-							class="font-bold text-2xl text-light-grayish-blue py-3 px-5"
-							@click="handleMainCommentVote(cbIndex, 'down')">
-							-
-						</button>
-					</div>
-					<button
-						v-if="cbValue.user.username !== 'juliusomo'"
-						class="flex items-center gap-x-3"
-						type="button"
-						@click="handleReply(cbIndex)">
-						<img :src="replyIcon" alt="reply icon" />
-						<span class="font-bold text-2xl text-moderate-blue"
-							>Reply</span
-						>
-					</button>
-					<div
-						class="flex gap-x-8"
-						v-show="cbValue.user.username === 'juliusomo'">
-						<button
-							class="flex items-center"
-							type="button"
-							@click="openModal(cbIndex, null)">
-							<img :src="deleteIcon" alt="trash icon" />
-							<span class="ml-2 font-bold text-soft-red">Delete</span>
-						</button>
-						<button
-							class="flex items-center"
-							type="button"
-							v-if="cbIndex !== activeEditindex">
-							<img :src="editIcon" alt="arrow icon" />
-							<span
-								class="ml-2 font-bold text-moderate-blue"
-								@click="handleEdit(cbIndex)"
-								>Edit</span
-							>
-						</button>
-						<button
-							v-else-if="cbIndex === activeEditindex"
-							class="flex items-center gap-x-3"
-							type="button"
-							@click="updateComment(cbIndex)">
-							<img :src="replyIcon" alt="reply icon" />
-							<span class="text-2xl text-moderate-blue font-bold"
-								>Update</span
-							>
-						</button>
-					</div>
-				</div>
-			</div>
-
-			<AddMainReply
-				:mainCommentIndex="cbIndex"
-				:replyIndex="replyIndex"
-				:data="commentsData"
-				:mainCommentValue="cbValue"
-				:errorBorder="errorBorder"
-				:replyToMain="replyToMain"
-				@shareAreaContent="textareaContent = $event" />
-
-			<div class="pl-5 border-l-2 border-grayish-blue">
-				<div class="mt-5" v-if="cbValue.replies.length > 0">
-					<div
-						class="mb-5"
-						v-for="(rpValue, rpIndex) in commentsData.data.comments[
-							cbIndex
-						].replies">
-						<MainReply
-							:secondValue="rpValue"
-							:secondIndex="rpIndex"
-							:mainIndex="cbIndex"
-							:handleReplyVote="handleReplyVote"
-							:handleCommentReply="handleCommentReply"
-							:openModal="openModal" />
-
-						<ReplyReply
-							:data="commentsData"
-							:secondIndex="rpIndex"
-							:replyCommentIndex="replyCommentIndex"
-							:mainIndex="cbIndex"
-							:replyToReply="replyToReply"
-							:errorBorder="errorBorder"
-							@shareAreaContent="textareaContent = $event" />
-					</div>
-				</div>
-			</div>
-		</div>
-		<AddComment />
-	</section>
-</template>
