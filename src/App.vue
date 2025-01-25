@@ -36,7 +36,6 @@ const secondIndex = ref(null)
 const currentTheme = ref(localStorage.getItem('theme') || 'light')
 import Nav from './components/Nav.vue'
 
-
 if (currentTheme.value === 'dark') {
 	document.documentElement.classList.add('dark')
 	document.documentElement.setAttribute('data-theme', 'dark')
@@ -58,6 +57,10 @@ watchEffect(() => {
 
 <style lang="scss">
 @use './sass/utilities/reset.scss';
+
+* {
+	transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+}
 
 .shadow-enter-from,
 .shadow-leave-to {
