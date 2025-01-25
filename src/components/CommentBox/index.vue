@@ -5,7 +5,7 @@
 			:key="cbValue.id">
 			<div
 				class="p-8 pr-9 rounded-2xl bg-white dark:bg-whiteDARK text-2xl md:flex md:items-start md:gap-x-[1.5em]">
-				<div class=" md:flex md:flex-col md:order-2 md:w-full">
+				<div class="md:flex md:flex-col md:order-2 md:w-full">
 					<div class="flex items-center mb-7 gap-x-7">
 						<img
 							:src="cbValue.user.image.webp"
@@ -34,41 +34,41 @@
 							>
 						</button>
 						<div
-						class="gap-x-8 hidden md:flex md:ml-auto"
-						v-show="cbValue.user.username === 'juliusomo'">
-						<button
-							class="flex items-center"
-							type="button"
-							@click="openModal(cbIndex, null)">
-							<img :src="deleteIcon" alt="trash icon" />
-							<span
-								class="ml-2 font-bold text-soft-red dark:text-softRedDARK"
-								>Delete</span
-							>
-						</button>
-						<button
-							class="flex items-center"
-							type="button"
-							v-if="cbIndex !== activeEditindex">
-							<img :src="editIcon" alt="arrow icon" />
-							<span
-								class="ml-2 font-bold text-moderate-blue dark:text-moderateBlueDARK"
-								@click="handleEdit(cbIndex)"
-								>Edit</span
-							>
-						</button>
-						<button
-							v-else-if="cbIndex === activeEditindex"
-							class="flex items-center gap-x-3"
-							type="button"
-							@click="updateComment(cbIndex)">
-							<img :src="replyIcon" alt="reply icon" />
-							<span
-								class="text-2xl text-moderate-blue dark:text-moderateBlueDARK font-bold"
-								>Update</span
-							>
-						</button>
-					</div>
+							class="gap-x-8 hidden md:flex md:ml-auto"
+							v-show="cbValue.user.username === 'juliusomo'">
+							<button
+								class="flex items-center"
+								type="button"
+								@click="openModal(cbIndex, null)">
+								<img :src="deleteIcon" alt="trash icon" />
+								<span
+									class="ml-2 font-bold text-soft-red dark:text-softRedDARK"
+									>Delete</span
+								>
+							</button>
+							<button
+								class="flex items-center"
+								type="button"
+								v-if="cbIndex !== activeEditindex">
+								<img :src="editIcon" alt="arrow icon" />
+								<span
+									class="ml-2 font-bold text-moderate-blue dark:text-moderateBlueDARK"
+									@click="handleEdit(cbIndex)"
+									>Edit</span
+								>
+							</button>
+							<button
+								v-else-if="cbIndex === activeEditindex"
+								class="flex items-center gap-x-3"
+								type="button"
+								@click="updateComment(cbIndex)">
+								<img :src="replyIcon" alt="reply icon" />
+								<span
+									class="text-2xl text-moderate-blue dark:text-moderateBlueDARK font-bold"
+									>Update</span
+								>
+							</button>
+						</div>
 					</div>
 					<textarea
 						v-if="isEdit && cbIndex === activeEditindex"
@@ -121,7 +121,6 @@
 						>
 					</button>
 
-
 					<div
 						class="flex gap-x-8 md:hidden"
 						v-show="cbValue.user.username === 'juliusomo'">
@@ -158,9 +157,6 @@
 							>
 						</button>
 					</div>
-
-
-
 				</div>
 			</div>
 
@@ -174,7 +170,7 @@
 				@shareAreaContent="textareaContent = $event" />
 
 			<div
-				class="pl-5 border-l-4 border-light-gray dark:border-lightGrayDARK rounded-md">
+				class="pl-5 border-l-4 md:pl-[3em] md:ml-[2.5em] border-light-gray dark:border-lightGrayDARK rounded-md">
 				<div class="mt-5" v-if="cbValue.replies.length > 0">
 					<div
 						class="mb-5"
@@ -188,7 +184,7 @@
 							:handleReplyVote="handleReplyVote"
 							:handleCommentReply="handleCommentReply"
 							:openModal="openModal"
-							:commentsData='commentsData'
+							:commentsData="commentsData"
 							:updatedText="updatedText"
 							@letsUpdateText="updatedText = $event"
 							@updateCommentText="updatedText = $event"
@@ -206,7 +202,7 @@
 				</div>
 			</div>
 		</div>
-		<AddComment  :commentsData='commentsData'/>
+		<AddComment :commentsData="commentsData" />
 	</section>
 </template>
 
@@ -242,28 +238,24 @@ const emit = defineEmits([
 	'cleanUpdateText',
 ])
 
-const handleToggle = (
-	actualRef,
-	otherRef,
-	index
-) => {
+const handleToggle = (actualRef, otherRef, index) => {
 	errorBorder.value = false
 	otherRef.value = null
 	actualRef.value = actualRef.value === index ? null : index
 }
 
-const handleReply = (index) => {
+const handleReply = index => {
 	textareaContent.value = ''
 	emit('cleanUpdateText', '')
 	handleToggle(replyIndex, replyCommentIndex, index)
 }
 
-const handleCommentReply = (index) => {
+const handleCommentReply = index => {
 	textareaContent.value = ''
 	handleToggle(replyCommentIndex, replyIndex, index)
 }
 
-const handleEdit = (mainIndex) => {
+const handleEdit = mainIndex => {
 	textareaContent.value = commentsData.data.comments[mainIndex].content
 	updatedText.value = textareaContent.value
 	activeEditindex.value = mainIndex
@@ -296,7 +288,7 @@ const addReply = (index, reply) => {
 	}
 }
 
-const updateComment = (mainIndex) => {
+const updateComment = mainIndex => {
 	if (updatedText.value !== '') {
 		commentsData.data.comments[mainIndex].content = updatedText.value
 		updatedText.value = ''
@@ -325,7 +317,7 @@ const updateComment = (mainIndex) => {
 // 	}
 // }
 
-const replyToMain = (mainIndex) => {
+const replyToMain = mainIndex => {
 	const reply = data.comments[mainIndex].user.username
 	addReply(mainIndex, reply)
 }
@@ -360,11 +352,7 @@ const handleMainCommentVote = (index, type) => {
 	handleVote(comment, type)
 }
 
-const handleReplyVote = (
-	index,
-	mainIndex,
-	type
-) => {
+const handleReplyVote = (index, mainIndex, type) => {
 	const comment = commentsData.data.comments[mainIndex].replies[index]
 	handleVote(comment, type)
 }

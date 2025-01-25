@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="flex items-start gap-x-4 mt-4 p-8 bg-white dark:bg-whiteDARK rounded-xl"
+		class="flex items-start gap-x-4 mt-4 p-8 bg-white dark:bg-whiteDARK rounded-xl "
 		v-show="props.mainCommentIndex === props.replyIndex"
 		:key="props.mainCommentValue.id">
 		<img

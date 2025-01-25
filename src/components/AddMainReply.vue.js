@@ -31,7 +31,7 @@ function __VLS_template() {
     var __VLS_ctx = {};
     var __VLS_components;
     var __VLS_directives;
-    __VLS_elementAsFunction(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)(__assign({ class: ("flex items-start gap-x-4 mt-4 p-8 bg-white dark:bg-whiteDARK rounded-xl") }, { key: ((props.mainCommentValue.id)) }));
+    __VLS_elementAsFunction(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)(__assign({ class: ("flex items-start gap-x-4 mt-4 p-8 bg-white dark:bg-whiteDARK rounded-xl ") }, { key: ((props.mainCommentValue.id)) }));
     __VLS_asFunctionalDirective(__VLS_directives.vShow)(null, __assign(__assign({}, __VLS_directiveBindingRestFields), { value: (props.mainCommentIndex === props.replyIndex) }), null, null);
     __VLS_elementAsFunction(__VLS_intrinsicElements.img)(__assign({ src: ((props.data.data.currentUser.image.webp)), alt: ("own profile picture") }, { class: ("w-14") }));
     __VLS_elementAsFunction(__VLS_intrinsicElements.textarea, __VLS_intrinsicElements.textarea)(__assign(__assign({ id: ("reply-comment") }, { class: (([

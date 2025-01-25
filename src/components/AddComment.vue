@@ -3,7 +3,7 @@
 		class="p-8 pr-9 rounded-2xl bg-white dark:bg-whiteDARK text-2xl flex items-start gap-x-2">
 		<img :src="avatar" alt="profile picture" class="block w-14" />
 		<textarea
-			v-model="updatedText"
+			v-model="updatedText" placeholder="Add comment..."
 			:class="[
 				'w-full p-6 mb-3 bg-white text-dark-blue dark:text-darkBlueDARK dark:bg-whiteDARK order-dark-blue dark:border-darkBlueDARK border rounded-xl max-h-[9rem] min-h=[9rem] focus:border-1',
 				{ 'border-soft-red dark:border-softRedDARK': errorBorder },

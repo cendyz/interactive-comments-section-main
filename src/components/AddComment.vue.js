@@ -47,7 +47,7 @@ function __VLS_template() {
     var __VLS_directives;
     __VLS_elementAsFunction(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)(__assign({ class: ("p-8 pr-9 rounded-2xl bg-white dark:bg-whiteDARK text-2xl flex items-start gap-x-2") }));
     __VLS_elementAsFunction(__VLS_intrinsicElements.img)(__assign({ src: ((__VLS_ctx.avatar)), alt: ("profile picture") }, { class: ("block w-14") }));
-    __VLS_elementAsFunction(__VLS_intrinsicElements.textarea, __VLS_intrinsicElements.textarea)(__assign({ value: ((__VLS_ctx.updatedText)) }, { class: (([
+    __VLS_elementAsFunction(__VLS_intrinsicElements.textarea, __VLS_intrinsicElements.textarea)(__assign({ value: ((__VLS_ctx.updatedText)), placeholder: ("Add comment...") }, { class: (([
             'w-full p-6 mb-3 bg-white text-dark-blue dark:text-darkBlueDARK dark:bg-whiteDARK order-dark-blue dark:border-darkBlueDARK border rounded-xl max-h-[9rem] min-h=[9rem] focus:border-1',
             { 'border-soft-red dark:border-softRedDARK': __VLS_ctx.errorBorder },
             {
