@@ -36,7 +36,7 @@ const deleteComment = () => {
 <template>
 	<transition name="fade">
 		<dialog :open="props.isOpen"
-			class="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] border-0 p-7 rounded-2xl bg-white z-20"
+			class="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] border-0 p-7 rounded-2xl bg-white z-20 md:w-[350px]"
 			v-if="props.isOpen">
 			<h3
 				class="mb-5 text-dark-blue first-letter:capitalize font-bolder text-3xl">

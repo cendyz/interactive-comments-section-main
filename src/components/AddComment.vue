@@ -22,19 +22,21 @@
 	</div>
 </template>
 
-<script setup>
-import { ref, reactive } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
 import avatar from '@/images/avatars/image-juliusomo.webp'
-import { data } from '@/data'
 import { nanoid } from 'nanoid'
 const updatedText = ref('')
 const errorBorder = ref(false)
-const newData = reactive({ data })
+
+const props = defineProps({
+	commentsData: Object
+})
 
 const addComment = () => {
 	if (updatedText.value !== '') {
-		newData.data.comments.push({
-			id: nanoid(),
+		props.commentsData.data.comments.push({
+			id: nanoid() as any,
 			content: updatedText.value,
 			createdAt: 'Now',
 			score: 0,
